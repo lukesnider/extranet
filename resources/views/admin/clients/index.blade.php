@@ -20,8 +20,8 @@
 			<tbody>
 			@foreach($clients AS $client)
 			  <tr>
-				<td><a href="{{ route('client.edit', ['id' => $client->id]) }}">{{ $client->name }}</a></td>
-				<td>{{ $client->email }}</td>
+				<td><a href="{{ route('clients.edit', ['id' => $client->id]) }}">{{ $client->name }}</a></td>
+				<td>{{ $client->contact_email }}</td>
 			  </tr>
 			@endforeach
 			</tbody>

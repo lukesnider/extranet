@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 class RolesTableSeeder extends Seeder
 {
 	protected $roles = [
-		'Admin','Developer','Designer','Sales',
+		'Admin','Developer','Designer','Sales','Client'
 	];
 	
     /**

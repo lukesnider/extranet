@@ -14,13 +14,24 @@
 			<form method="POST" action="{{ route('projects.store') }}">
 				{{ csrf_field() }} 
 			  <div class="form-group">
-				<label for="exampleInputEmail1">Project Name</label>
-				<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-			  </div>
+				<label for="exampleInputEmail1">Name</label>
+				<input type="text" class="form-control" name="name">
+			  </div>			  
 			  <div class="form-group">
-				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<label for="exampleInputEmail1">Client</label>
+				<select class="form-control" name="client" required>
+					<option value=""></option>
+					@foreach($clients AS $client)
+						<option value="{{ $client->id }}">{{ $client->name }}</option>
+					@endforeach
+				</select>
+			  </div>			 
+
+			  <div class="form-group">
+				<label for="exampleInputEmail1">Notes</label>
+				<textarea class="form-control" name="notes" ></textarea>
 			  </div>
+
 			  <button type="submit" class="btn btn-default">Save</button>
 			</form>
 		</div>
