@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\ClientEmailAddress;
+
 class ClientController extends Controller
 {
     /**
@@ -35,7 +37,30 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+		$client_email = new ClientEmailAddress;
+        $client = new Client;
+		
+		$client->name 	=	$request->input('name');
+		$client->contact_email 	=	$request->input('email');
+		$client->address_1 	=	$request->input('address_1');
+		$client->address_2 	=	$request->input('address_2');
+		$client->phone 	=	$request->input('phone');
+		$client->fax 	=	$request->input('fax');
+		$client->state 	=	$request->input('state');
+		$client->zip 	=	$request->input('zip');
+		$client->city 	=	$request->input('city');
+		$client->isActive 	=	$request->input('active');
+
+		//dd($client,$request);
+		$client->save();
+		
+		$client_email->client_id = $client->id;
+		$client_email->email = $client->contact_email;
+		
+		$client_email->save();
+		
+        $clients = Client::all();
+        return redirect()->route('clients.index', ['clients' => $clients]);
     }
 
     /**
@@ -57,7 +82,9 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        //
+		$client = Client::find($id);
+		
+        return view('admin.clients.edit', ['client' => $client]);
     }
 
     /**
@@ -69,7 +96,21 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $client = Client::find($id);
+		$client->name 	=	$request->input('name');
+		$client->contact_email 	=	$request->input('email');
+		$client->address_1 	=	$request->input('address_1');
+		$client->address_2 	=	$request->input('address_2');
+		$client->phone 	=	$request->input('phone');
+		$client->fax 	=	$request->input('fax');
+		$client->state 	=	$request->input('state');
+		$client->zip 	=	$request->input('zip');
+		$client->city 	=	$request->input('city');
+		$client->isActive 	=	$request->input('active');
+
+		$client->save();
+		
+		return view('admin.clients.edit', ['client' => $client]);
     }
 
     /**
