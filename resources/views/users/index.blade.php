@@ -17,6 +17,7 @@
 				<th>Email</th>
 				<th>Role</th>
 				<th>Active</th>
+				<th>Company</th>
 				<th></th>
 			  </tr>
 			</thead>
@@ -33,6 +34,7 @@
 				@endforeach
 				</td>
 				<td>@if($user->isActive)Yes @else No @endif</td>
+				<td>N/A</td>
 				<td>
 					<form action="{{route('users.destroy', $user->id)}}" method="POST">
 					{{csrf_field()}}
