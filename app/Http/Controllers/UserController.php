@@ -93,20 +93,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-		
 		$user = User::find($id);
 		
 		$user->email = $request->input('email');
-		$user->name	 = $request->input('name');
-		
+		$user->name	 = $request->input('name');		
 		$user->isActive = $request->input('active');
 		
-		$user->roles()->detach();
-		
-		foreach($request->input('roles') AS $role)
-		{
-			$user->roles()->attach($role);
-		}
+		$user->roles()->sync($request->roles);
 		
 		$user->save();
 		
@@ -121,6 +114,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
+        $user = User::find($id);
+		$user->delete();
+		
+		return redirect()->back();
     }
 }
