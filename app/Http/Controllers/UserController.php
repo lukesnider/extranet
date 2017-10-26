@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,9 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-      $users = \App\User::all();
-      
-       return view('admin.users.index',['users' => $users]);
+       $users = User::all();
+       return view('users.index',['users' => $users]);
     }
 
     /**
@@ -29,8 +29,8 @@ class UserController extends Controller
     public function create()
     {
 		$roles = Role::all();
-		
-        return view('admin.users.create',['roles' => $roles]);
+
+        return view('users.create',['roles' => $roles]);
     }
 
     /**
@@ -43,23 +43,18 @@ class UserController extends Controller
     {
 		$user = new User;
 		
-		$user->name = $request->input('name');
-		$user->email = $request->input('email');
-		$user->isActive = $request->input('active');
-		
-		$user->password = Hash::make($request->input('password'));
+		$user->name = $request->name;
+		$user->email = $request->email;
+		$user->isActive = $request->active;		
+		$user->password = Hash::make($request->password);
 		
 		$user->save(); 
 		
-		
-		foreach($request->input('roles') AS $role)
-		{
-			$user->roles()->attach($role);
-		}
-				
+		$user->roles()->sync($request->roles);
+    
 		$users = User::all();
 				
-		return view('admin.users.index',['users' => $users]);
+		return view('users.index',['users' => $users]);
     }
 
     /**
@@ -70,7 +65,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('users.show', ['user'=> $user]);
     }
 
     /**
@@ -82,16 +79,9 @@ class UserController extends Controller
     public function edit($id)
     {
 		$user = User::find($id);
-		$user_roles = [];
-
-		foreach ($user->roles as $role) {
-			array_push($user_roles, $role->id);
-		}
-		//dd($user_roles);
-		
 		$roles = Role::all();
 		
-		return view('admin.users.edit',['user' => $user, 'roles' => $roles, 'user_roles' => $user_roles]);
+		return view('users.edit',['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -103,20 +93,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-		
 		$user = User::find($id);
 		
 		$user->email = $request->input('email');
-		$user->name	 = $request->input('name');
-		
+		$user->name	 = $request->input('name');		
 		$user->isActive = $request->input('active');
 		
-		$user->roles()->detach();
-		
-		foreach($request->input('roles') AS $role)
-		{
-			$user->roles()->attach($role);
-		}
+		$user->roles()->sync($request->roles);
 		
 		$user->save();
 		
@@ -131,6 +114,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
+        $user = User::find($id);
+		$user->isActive = 0;
+		$user->save();
+		
+		return redirect()->back();
     }
 }

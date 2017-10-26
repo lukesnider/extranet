@@ -25,10 +25,6 @@
 				<div class="help-block with-errors"></div>
 			  </div>
 			  
-			  
-
-			  
-			  
 			  <label for="">Roles</label>
 				<select multiple class="form-control" name="roles[]" required>
 				  @foreach($roles AS $role)

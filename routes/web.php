@@ -24,18 +24,6 @@ Route::middleware(['auth', 'cors'])->prefix('admin')->group(function () {
 		Route::post('/store', 'ProjectController@store')->name('projects.store');
 	});	
 	
-	Route::prefix('users')->group(function () { 
-		Route::get('/', 'UserController@index')->name('users.index');
-		Route::middleware(['admin'])->group(function () {
-			Route::get('/create', 'UserController@create')->name('users.create');
-			Route::get('/edit/{id}', 'UserController@edit')->name('users.edit');
-			Route::post('/store', 'UserController@store')->name('users.store');
-			Route::post('/update/{id}', 'UserController@update')->name('users.update');
-			
-		});
-
-	});
-	
 	Route::prefix('client')->group(function () { 
 		Route::get('/', 'ClientController@index')->name('clients.index');
 		Route::middleware(['admin'])->group(function () {
@@ -43,12 +31,17 @@ Route::middleware(['auth', 'cors'])->prefix('admin')->group(function () {
 			Route::get('/edit/{id}', 'ClientController@edit')->name('clients.edit');
 			Route::post('/store', 'ClientController@store')->name('clients.store');
 			Route::post('/update/{id}', 'ClientController@update')->name('clients.update');
-			
 		});
-
 	});
-	
-	
+});
+
+Route::prefix('users')->group(function () { 
+	Route::get('/', 'UserController@index')->name('users.index');
+	Route::get('/create', 'UserController@create')->name('users.create');
+	Route::get('/{id}/edit', 'UserController@edit')->name('users.edit');
+	Route::post('/store', 'UserController@store')->name('users.store');
+	Route::post('/{id}/update', 'UserController@update')->name('users.update');
+	Route::post('/{id}/destroy', 'UserController@destroy')->name('users.destroy');
 });
 
 Auth::routes();

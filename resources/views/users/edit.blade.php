@@ -18,7 +18,7 @@
 			  <label for="">Roles</label>
 				<select multiple class="form-control" name="roles[]">
 				  @foreach($roles AS $role)
-					<option value="{{ $role->id }}" @if(in_array($role->id,$user_roles)) selected @endif>{{ $role->role }}</option>
+					<option value="{{ $role->id }}" @if($user->roles->contains($role->id)) selected @endif>{{ $role->role }}</option>
 				  @endforeach
 				</select>
 				

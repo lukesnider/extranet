@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 class RolesTableSeeder extends Seeder
 {
 	protected $roles = [
-		'Admin','Developer','Designer','Sales','Client'
+		'SuperAdmin' => 'user','Admin' => 'user','Client' => 'company', 'Employee' => 'user'
 	];
 	
     /**
@@ -15,10 +15,11 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->roles AS $role)
+        foreach($this->roles AS $role => $type)
 		{
 			DB::table('roles')->insert([
 				'role' => $role,
+				'type' => $type,
 			]);
 		}
     }
