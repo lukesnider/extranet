@@ -25,7 +25,7 @@
 				<td>{{ $user->email }}</td>
 				<td>
 				@foreach($user->roles AS $role)
-					{{ $role->role }}, 
+					{{ $role->role }}@if($user->roles()->count() > 1), @endif 
 				@endforeach
 				</td>
 			  </tr>
