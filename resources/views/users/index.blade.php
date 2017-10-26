@@ -16,6 +16,8 @@
 				<th>Name</th>
 				<th>Email</th>
 				<th>Role</th>
+				<th>Active</th>
+				<th></th>
 			  </tr>
 			</thead>
 			<tbody>
@@ -24,9 +26,18 @@
 				<td><a href="{{ route('users.edit', ['id' => $user->id]) }}">{{ $user->name }}</a></td>
 				<td>{{ $user->email }}</td>
 				<td>
+				@php $count = 1; @endphp
 				@foreach($user->roles AS $role)
-					{{ $role->role }}@if($user->roles()->count() > 1), @endif 
+					{{ $role->role }}@if($count != $user->roles()->count()), @endif 
+					@php $count++; @endphp
 				@endforeach
+				</td>
+				<td>@if($user->isActive)Yes @else No @endif</td>
+				<td>
+					<form action="{{route('users.destroy', $user->id)}}" method="POST">
+					{{csrf_field()}}
+					<input class="btn btn-sm btn-danger" type="submit" value="Disable" />
+					</form>
 				</td>
 			  </tr>
 			@endforeach
