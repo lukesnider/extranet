@@ -29,7 +29,7 @@ class UserController extends Controller
     public function create()
     {
 		$roles = Role::all();
-		
+
         return view('users.create',['roles' => $roles]);
     }
 
@@ -45,8 +45,7 @@ class UserController extends Controller
 		
 		$user->name = $request->name;
 		$user->email = $request->email;
-		$user->isActive = $request->active;
-		
+		$user->isActive = $request->active;		
 		$user->password = Hash::make($request->password);
 		
 		$user->save(); 
@@ -80,14 +79,9 @@ class UserController extends Controller
     public function edit($id)
     {
 		$user = User::find($id);
-		foreach ($user->roles as $role) {
-			array_push($user_roles, $role->id);
-		}
-
-		
 		$roles = Role::all();
 		
-		return view('users.edit',['user' => $user, 'roles' => $roles, 'user_roles' => $user_roles]);
+		return view('users.edit',['user' => $user, 'roles' => $roles]);
     }
 
     /**
