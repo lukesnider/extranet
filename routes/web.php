@@ -33,6 +33,15 @@ Route::middleware(['auth', 'cors'])->prefix('admin')->group(function () {
 			Route::post('/update/{id}', 'ClientController@update')->name('clients.update');
 		});
 	});
+	Route::prefix('companies')->group(function () { 
+		Route::get('/', 'CompanyController@index')->name('companies.index');
+		Route::middleware(['admin'])->group(function () {
+			Route::get('/create', 'CompanyController@create')->name('companies.create');
+			Route::get('/edit/{id}', 'CompanyController@edit')->name('companies.edit');
+			Route::post('/store', 'CompanyController@store')->name('companies.store');
+			Route::post('/update/{id}', 'CompanyController@update')->name('companies.update');
+		});
+	});
 });
 
 Route::prefix('users')->group(function () { 
